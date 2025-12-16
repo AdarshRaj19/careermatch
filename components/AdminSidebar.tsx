@@ -43,9 +43,11 @@ const AdminSidebar: React.FC = () => {
                 ))}
             </nav>
             <div className="mt-auto">
-                 <NavLink
-                    to="/admin/dashboard" // a placeholder link
-                    className={`${baseLinkClasses} ${inactiveLinkClasses} mt-2`}
+                <NavLink
+                    to="settings"
+                    className={({ isActive }) =>
+                        `${baseLinkClasses} ${isActive ? activeLinkClasses : inactiveLinkClasses} mt-2`
+                    }
                 >
                     <SettingsIcon className="w-5 h-5" />
                     <span className="mx-4 font-medium">Settings</span>

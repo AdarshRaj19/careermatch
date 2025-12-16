@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { api } from '../../services/api';
 
 export default function AdminDashboardPage() {
   const [stats, setStats] = useState<any>(null);
@@ -9,16 +9,8 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const token = localStorage.getItem("token");
-
-        const response = await axios.get(
-          "http://localhost:3001/api/admin/dashboard-stats",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-
-        setStats(response.data);
+        const data = await api.get('/admin/dashboard-stats');
+        setStats(data);
       } catch (err: any) {
         console.error("FETCH ERROR =", err);
         setError("Failed to load dashboard data");

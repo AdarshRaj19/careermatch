@@ -21,10 +21,20 @@ const AdminResultsDashboardPage: React.FC = () => {
     useEffect(() => {
         const fetchResults = async () => {
             try {
-                const response = await api.get('/admin/results');
-                setResults(response.data);
+                const data = await api.get('/admin/results');
+                // Map backend field names to frontend interface
+                const mappedResults = Array.isArray(data) ? data.map((r: any) => ({
+                    student_name: r.student_name || '',
+                    student_email: r.student_email || '',
+                    internship_title: r.title || '',
+                    internship_organization: r.organization || '',
+                    match_score: r.match_score || 0,
+                    status: r.status || 'Matched'
+                })) : [];
+                setResults(mappedResults);
             } catch (error) {
                 console.error("Failed to fetch results", error);
+                setResults([]);
             } finally {
                 setLoading(false);
             }
@@ -34,8 +44,18 @@ const AdminResultsDashboardPage: React.FC = () => {
 
     const handleDownload = async () => {
         try {
-            const response = await api.get('/admin/results/download');
-            const blob = new Blob([response.data], { type: 'text/csv' });
+            const token = localStorage.getItem('token');
+            const response = await fetch('http://localhost:3001/api/admin/results/download', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error('Download failed');
+            }
+            
+            const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -43,6 +63,7 @@ const AdminResultsDashboardPage: React.FC = () => {
             document.body.appendChild(a);
             a.click();
             a.remove();
+            window.URL.revokeObjectURL(url);
         } catch (error) {
             console.error("Failed to download results:", error);
             alert("Could not download results.");

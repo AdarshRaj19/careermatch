@@ -97,9 +97,9 @@ const StudentProfilePage: React.FC = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await api.get('/student/profile');
-                setProfile(response.profile);
-                setQuickStats(response.quickStats);
+                const data = await api.get('/student/profile');
+                setProfile(data.profile);
+                setQuickStats(data.quickStats);
             } catch (error) {
                 console.error("Failed to fetch profile:", error);
             } finally {

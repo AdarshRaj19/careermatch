@@ -21,10 +21,11 @@ const AdminDataUploadPage: React.FC = () => {
 
     const fetchHistory = useCallback(async () => {
         try {
-            const response = await api.get('/admin/upload-history');
-            setUploadHistory(response.data);
+            const data = await api.get('/admin/upload-history');
+            setUploadHistory(Array.isArray(data) ? data : []);
         } catch (e) {
-            console.error(e);
+            console.error("Failed to fetch upload history:", e);
+            setUploadHistory([]);
         } finally {
             setLoading(false);
         }
@@ -35,17 +36,34 @@ const AdminDataUploadPage: React.FC = () => {
     }, [fetchHistory]);
     
     const handleFileUpload = async (file: File) => {
+        // Validate file type
+        const validTypes = ['text/csv', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+        const fileExtension = file.name.split('.').pop()?.toLowerCase();
+        
+        if (!validTypes.includes(file.type) && !['csv', 'xlsx', 'xls'].includes(fileExtension || '')) {
+            alert('Invalid file type. Please upload a CSV or Excel file.');
+            return;
+        }
+
+        // Validate file size (10MB max)
+        if (file.size > 10 * 1024 * 1024) {
+            alert('File size exceeds 10MB limit.');
+            return;
+        }
+
         const formData = new FormData();
         formData.append('datafile', file);
         
         setIsUploading(true);
         try {
             await api.post('/admin/upload-data', formData);
+            alert('File uploaded successfully!');
             // Refresh history after upload
             fetchHistory();
-        } catch (error) {
-            alert('File upload failed.');
-            console.error(error);
+        } catch (error: any) {
+            const errorMsg = error?.response?.data?.message || error?.message || 'File upload failed.';
+            alert(`Upload failed: ${errorMsg}`);
+            console.error("Upload error:", error);
         } finally {
             setIsUploading(false);
         }
@@ -79,12 +97,54 @@ const AdminDataUploadPage: React.FC = () => {
                     <h2 className="text-xl font-semibold">Templates</h2>
                     <p className="text-sm text-gray-500 dark:text-gray-400">Download templates to ensure your data is formatted correctly.</p>
                     <div className="mt-4 space-y-3">
-                        <a href="http://localhost:3001/api/admin/templates/students" download="student_template.csv" className="w-full flex items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200">
+                        <button 
+                            onClick={async () => {
+                                try {
+                                    const token = localStorage.getItem('token');
+                                    const response = await fetch('http://localhost:3001/api/admin/templates/students', {
+                                        headers: { 'Authorization': `Bearer ${token}` }
+                                    });
+                                    const blob = await response.blob();
+                                    const url = window.URL.createObjectURL(blob);
+                                    const a = document.createElement('a');
+                                    a.href = url;
+                                    a.download = 'student_template.csv';
+                                    document.body.appendChild(a);
+                                    a.click();
+                                    a.remove();
+                                    window.URL.revokeObjectURL(url);
+                                } catch (error) {
+                                    alert('Failed to download template.');
+                                }
+                            }}
+                            className="w-full flex items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 cursor-pointer"
+                        >
                            <FileTextIcon className="w-5 h-5 text-gray-500 dark:text-gray-400 mr-3" /> Student Data Template (.csv)
-                        </a>
-                         <a href="http://localhost:3001/api/admin/templates/internships" download="internship_template.csv" className="w-full flex items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200">
+                        </button>
+                        <button 
+                            onClick={async () => {
+                                try {
+                                    const token = localStorage.getItem('token');
+                                    const response = await fetch('http://localhost:3001/api/admin/templates/internships', {
+                                        headers: { 'Authorization': `Bearer ${token}` }
+                                    });
+                                    const blob = await response.blob();
+                                    const url = window.URL.createObjectURL(blob);
+                                    const a = document.createElement('a');
+                                    a.href = url;
+                                    a.download = 'internship_template.csv';
+                                    document.body.appendChild(a);
+                                    a.click();
+                                    a.remove();
+                                    window.URL.revokeObjectURL(url);
+                                } catch (error) {
+                                    alert('Failed to download template.');
+                                }
+                            }}
+                            className="w-full flex items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 cursor-pointer"
+                        >
                            <FileTextIcon className="w-5 h-5 text-gray-500 dark:text-gray-400 mr-3" /> Internship Data Template (.csv)
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>

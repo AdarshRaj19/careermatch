@@ -18,10 +18,11 @@ const AdminAuditLogsPage: React.FC = () => {
     useEffect(() => {
         const fetchLogs = async () => {
             try {
-                const response = await api.get('/admin/audit-logs');
-                setLogs(response.data);
+                const data = await api.get('/admin/audit-logs');
+                setLogs(Array.isArray(data) ? data : []);
             } catch (error) {
                 console.error("Failed to fetch audit logs", error);
+                setLogs([]);
             } finally {
                 setLoading(false);
             }

@@ -28,8 +28,8 @@ const StudentDocumentsPage: React.FC = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await api.get('/student/profile');
-                setProfile(response.data.profile);
+                const data = await api.get('/student/profile');
+                setProfile(data.profile);
             } catch (error) {
                 console.error("Failed to fetch consent settings:", error);
             }
@@ -70,8 +70,8 @@ const StudentDocumentsPage: React.FC = () => {
         
         setUploadStatus('uploading');
         try {
-            const response = await api.post('/student/resume/upload', formData);
-            setProfile(prev => prev ? { ...prev, resume_url: response.data.resumeUrl } : null);
+            const data = await api.post('/student/resume/upload', formData);
+            setProfile(prev => prev ? { ...prev, resume_url: data.avatarUrl || data.resumeUrl } : null);
             setUploadStatus('success');
             setTimeout(() => setUploadStatus('idle'), 3000);
         } catch (error) {

@@ -16,10 +16,15 @@ const AdminFairnessReportPage: React.FC = () => {
     useEffect(() => {
         const fetchReportData = async () => {
             try {
-                const response = await api.get('/admin/fairness-report');
-                setReportData(response);
+                const data = await api.get('/admin/fairness-report');
+                setReportData({
+                    genderData: Array.isArray(data.genderData) ? data.genderData : [],
+                    districtData: Array.isArray(data.districtData) ? data.districtData : [],
+                    detailedBreakdown: Array.isArray(data.detailedBreakdown) ? data.detailedBreakdown : []
+                });
             } catch (error) {
                 console.error("Failed to fetch fairness report data:", error);
+                setReportData({ genderData: [], districtData: [], detailedBreakdown: [] });
             } finally {
                 setLoading(false);
             }
@@ -42,7 +47,25 @@ const AdminFairnessReportPage: React.FC = () => {
                     <h1 className="text-2xl font-bold text-gray-800">Fairness & Equity Report</h1>
                     <p className="text-sm text-gray-500">An overview of the internship allocation process by demographic groups.</p>
                 </div>
-                <Button variant="primary">Download Full Report</Button>
+                <Button variant="primary" onClick={async () => {
+                    try {
+                        const token = localStorage.getItem('token');
+                        const response = await fetch('http://localhost:3001/api/admin/fairness-report/download', {
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
+                        const blob = await response.blob();
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'fairness_report.csv';
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                        window.URL.revokeObjectURL(url);
+                    } catch (error) {
+                        alert('Failed to download report.');
+                    }
+                }}>Download Full Report</Button>
             </div>
             
             <div className="bg-white p-6 rounded-lg shadow">

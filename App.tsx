@@ -29,6 +29,7 @@ import AdminFairnessReportPage from './pages/admin/AdminFairnessReportPage';
 import AdminWhatIfSimulatorPage from './pages/admin/AdminWhatIfSimulatorPage';
 import AdminAuditLogsPage from './pages/admin/AdminAuditLogsPage';
 import AdminManageStudentsPage from './pages/admin/AdminManageStudentsPage'; // Import new page
+import AdminSettingsPage from './pages/admin/AdminSettingsPage';
 
 const ProtectedRoute: React.FC<{ allowedRoles: ('student' | 'admin')[] }> = ({ allowedRoles }) => {
   const { user, isAuthenticated, loading } = useAuth();
@@ -83,6 +84,7 @@ const App: React.FC = () => {
                   <Route path="fairness-report" element={<AdminFairnessReportPage />} />
                   <Route path="what-if-simulator" element={<AdminWhatIfSimulatorPage />} />
                   <Route path="audit-logs" element={<AdminAuditLogsPage />} />
+                  <Route path="settings" element={<AdminSettingsPage />} />
                   <Route index element={<Navigate to="dashboard" />} />
                 </Route>
               </Route>
