@@ -1,0 +1,140 @@
+
+# CareerMatch Project: A Comprehensive Guide
+
+Welcome to CareerMatch! This document provides a complete overview of the project's functionality, architecture, and workflows. Its goal is to make it easy for anyone—developers, project managers, or stakeholders—to understand how the application works.
+
+## 1. Project Overview
+
+CareerMatch is an intelligent, AI-powered platform designed to connect students with their ideal internships. It serves two primary user roles: **Students** and **Administrators**.
+
+-   **For Students**: The platform offers tools for profile creation, AI-driven career guidance, internship searching, and application management.
+-   **For Administrators**: It provides a powerful dashboard to manage platform data (students, courses, internships), run a fair and transparent allocation process, and monitor system health and equity.
+
+The core of the platform is its integration with the **Google Gemini API**, which powers features from resume analysis to predictive simulations, making the process smarter and more personalized.
+
+---
+
+## 2. Technology Stack
+
+The application is a modern full-stack web app built with:
+
+-   **Frontend**:
+    -   **Framework**: React
+    -   **Styling**: Tailwind CSS
+    -   **Routing**: React Router
+    -   **State Management**: React Context API (`AuthContext`, `ThemeContext`, `ToastContext`)
+
+-   **Backend**:
+    -   **Framework**: Node.js with Express.js
+    -   **Database**: SQLite
+    -   **Query Builder**: Knex.js (manages migrations, seeds, and queries)
+    -   **Authentication**: JSON Web Tokens (JWT) for session management, Passport.js for Google OAuth 2.0.
+
+-   **AI Integration**:
+    -   **API**: Google Gemini API for all intelligent features.
+
+---
+
+## 3. Core Functionality & Workflows
+
+Below are flowcharts detailing the primary user journeys.
+
+### Student Workflow
+
+#### A. Onboarding & Profile Setup
+`[Signup Page]` -> `[Create Account/Login]` -> `[Student Dashboard]` -> `[Profile Page]` -> `[Fill Academic & Personal Info]` -> `[Upload Resume (AI Skill Extraction)]` -> `[Profile is Ready]`
+
+#### B. Finding & Applying for Internships
+`[Internships Page]` -> `[Search/Filter Internships]` -> `[View Internship Details]` -> `[Rank Top 5 Choices on Preferences Page]` -> `[Save Preferences]` -> `[Wait for Allocation]` -> `[View Allocation Result]` -> `[Accept/Decline Offer]`
+
+#### C. AI-Powered Career Guidance
+1.  **Career Discovery (Quiz)**:
+    `[AI Advisor Page]` -> `[Take Career Quiz]` -> `[AI Analyzes Answers]` -> `[View Recommended Career Paths & Courses]`
+
+2.  **Skill Gap Analysis**:
+    `[AI Advisor Page]` -> `[Enter Desired Job Title]` -> `[AI Compares Profile to Job]` -> `[View Skill Gaps & Learning Plan with Course Recommendations]`
+
+3.  **Resume Improvement**:
+    `[Profile Page]` -> `[Click "Get AI Improvement Tips"]` -> `[AI Analyzes Resume]` -> `[View Personalized Feedback]`
+
+4.  **AI Chatbot**:
+    `[AI Advisor Page]` -> `[Ask Career Question]` -> `[AI Provides Contextual Answer Based on Profile]`
+
+#### D. Skill Development
+`[Courses Page]` -> `[Explore Courses]` -> `[Enroll in Course]` -> `[View in "Continue Learning"]` -> `["View Certificate" (if applicable)]`
+
+---
+
+### Administrator Workflow
+
+#### A. System & Data Management
+`[Login]` -> `[Admin Dashboard]` -> `[Manage Courses/Internships Pages]` -> `[Add, Edit, or Toggle Status]`
+OR
+`[Data Upload Page]` -> `[Download Template]` -> `[Fill CSV]` -> `[Upload Bulk Data]`
+
+#### B. Running the Allocation Cycle
+`[Allocation Engine Page]` -> `[Adjust Policy Weights (Skill, Preference, Fairness)]` -> `[Click "Start Allocation"]` -> `[Monitor Live Logs]` -> `[Process Completes]`
+
+#### C. Reviewing Results & Compliance
+1.  **Results**:
+    `[Results Dashboard]` -> `[View List of Matched Students]` -> `[Search/Filter Results]` -> `[Download CSV Report]`
+
+2.  **Fairness & Equity**:
+    `[Fairness Report Page]` -> `[View Placement Rates by Demographics]`
+
+3.  **Auditing**:
+    `[Audit & Logs Page]` -> `[View History of All Allocation Runs]` -> `[Download Detailed Log for Any Run]`
+
+#### D. User Management
+`[Manage Students Page]` -> `[Search/Filter Students]` -> `[Click "View Details"]` -> `[Review Student's Full Profile in a Modal]`
+
+---
+
+## 4. Key Architectural Concepts
+
+-   **Authentication Flow**:
+    -   The user logs in with credentials or Google OAuth.
+    -   The backend validates the user and issues a **JSON Web Token (JWT)**.
+    -   The frontend stores this JWT in `localStorage`.
+    -   For every subsequent request to a protected API route, the frontend sends the JWT in the `Authorization` header.
+    -   The backend middleware verifies the JWT to confirm the user's identity and role (`student` or `admin`).
+
+-   **Database Schema**:
+    -   The database structure is defined in `backend/migrations/`.
+    -   **`users`**: Stores login info (email, password hash, role). The central table.
+    -   **`student_profiles`**: Contains all detailed information about a student. Linked one-to-one with `users`.
+    -   **`internships` & `courses`**: Catalogs of available internships and courses.
+    -   **`student_preferences`**: Stores the ranked list of internships for each student.
+    -   **`allocations`**: The output of the allocation engine. Links a student to an internship.
+    -   **`audit_logs`**, **`notifications`**, etc.: Supporting tables for professional features.
+
+-   **AI (Gemini) Integration**:
+    -   The frontend **never** calls the Gemini API directly.
+    -   All AI requests are proxied through the backend (`/api/student/...` or `/api/admin/...` routes).
+    -   The backend constructs a detailed, specific **prompt** for the AI, often enriching it with data from the database (like a student's skills or a list of available courses).
+    -   This ensures API keys are secure and allows for more complex, context-aware AI interactions.
+
+-   **Frontend State Management**:
+    -   Global state is managed using React Context, avoiding the need for complex libraries like Redux.
+    -   **`AuthContext`**: Manages the current user, authentication status, and login/logout functions.
+    -   **`ThemeContext`**: Handles light/dark/system theme switching.
+    -   **`ToastContext`**: Provides a global, non-blocking notification system for user feedback.
+
+---
+
+## 5. How to Run the Project
+
+### Backend Setup
+1.  Navigate to the backend directory: `cd backend`
+2.  Install all dependencies: `npm install`
+3.  Create your environment file: `cp .env.example .env`
+4.  **Edit `.env`**: You **must** add your **Google Gemini API Key** and your **Google OAuth 2.0 Credentials**.
+5.  Set up the database (creates tables and the default admin user): `npm run db:setup`
+6.  Start the server: `npm run dev` (It will run on `http://localhost:3001`)
+
+### Frontend
+The frontend is a static React application that is automatically built and served by the development environment. Simply open the main project URL provided by the development server (e.g., `http://localhost:5173`) in your browser after starting the backend.
+
+---
+
+This document should provide a solid foundation for understanding the CareerMatch project. The combination of a robust backend, an interactive frontend, and powerful AI integration makes it a professional and highly functional application.

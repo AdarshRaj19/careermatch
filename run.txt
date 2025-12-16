@@ -1,0 +1,187 @@
+Of course! I'd be happy to provide a clear, step-by-step guide to get the CareerMatch website running on your personal computer.
+This guide is designed to be easy to follow, even if you're not a professional developer.
+Prerequisites: What You Need First
+Before you start, make sure you have the following software installed on your PC:
+Node.js: This is the environment that runs the backend. You can download it from the official Node.js website. Installing Node.js will also automatically install npm, which is a tool we need.
+A Code Editor: I highly recommend Visual Studio Code (VS Code). It's free, powerful, and has extensions that will make this process easier. You can download it from the VS Code website.
+VS Code "Live Server" Extension: This will let you run the frontend with a single click.
+Open VS Code.
+Go to the Extensions view (click the icon with four squares on the side).
+Search for Live Server (by Ritwick Dey).
+Click "Install".
+Step 1: Get Your API Keys (Crucial for AI Features)
+The website's intelligent features rely on Google APIs. You'll need to get two sets of keys. This is the most important step!
+Google Gemini API Key (for AI):
+Go to the Google AI Studio website.
+Click "Create API key".
+Copy the key and save it in a temporary text file.
+Google OAuth 2.0 Credentials (for Google Login):
+Go to the Google Cloud Console.
+Create a new project if you don't have one.
+Go to Credentials, click + CREATE CREDENTIALS, and select OAuth client ID.
+If prompted, configure your "OAuth consent screen" first (choose "External" and fill in the required app name and email).
+For the Application type, select Web application.
+Under Authorized redirect URIs, click + ADD URI and enter this exact value: http://localhost:3001/api/auth/google/callback
+Click Create.
+A window will pop up with your Client ID and Client Secret. Copy both of these and save them in your temporary text file.
+You should now have three secret keys saved.
+Step 2: Set Up and Run the Backend Server
+The backend is the "brain" of the website; it connects to the database and the AI.
+Open the Project: Open the main CareerMatch project folder in VS Code.
+Open a Terminal: In VS Code, go to the top menu and click Terminal -> New Terminal.
+Navigate to the Backend: The terminal will open at the project's root. Type the following command to go into the backend folder:
+code
+Bash
+cd backend
+Install Dependencies: This command reads the package.json file and downloads all the necessary code libraries for the backend.
+code
+Bash
+npm install
+Configure Environment: Create a special file to hold your secret API keys.
+code
+Bash
+cp .env.example .env
+Add Your Keys:
+In the VS Code file explorer on the left, open the backend folder and find the new .env file.
+Open it and paste in the keys you saved from Step 1. It should look like this:
+code
+Code
+JWT_SECRET=a_very_secret_key_that_you_can_change
+GEMINI_API_KEY="PASTE_YOUR_GEMINI_API_KEY_HERE"
+GOOGLE_CLIENT_ID="PASTE_YOUR_GOOGLE_CLIENT_ID_HERE"
+GOOGLE_CLIENT_SECRET="PASTE_YOUR_GOOGLE_CLIENT_SECRET_HERE"
+Save the .env file.
+Set Up the Database: This single command will create the database file (data.sqlite3), build all the tables, and add the default admin user for you.
+code
+Bash
+npm run db:setup
+Start the Server!: Now, run the backend server.
+code
+Bash
+npm run dev
+You should see a message like Server running on port 3001. Leave this terminal open and running. The backend is now active and waiting for requests from the frontend.
+Step 3: Run the Frontend Website
+The frontend is the visual part of the website that you interact with in your browser.
+Find the index.html file in the VS Code file explorer. It should be in the main project folder.
+Right-click on the index.html file.
+Select "Open with Live Server" from the context menu.
+Your default web browser should automatically open a new tab with the CareerMatch website! The URL will look something like http://127.0.0.1:5500/index.html.
+Step 4: You're Done! How to Use the Website
+Congratulations, the website is now fully running on your PC!
+To Log in as an Admin:
+Email: admin@example.com
+Password: admin123
+To Use as a Student:
+Click the "Sign Up" button on the landing page to create your own student account. You can sign up with your email or use the "Sign in with Google" button you just configured.
+You can now explore all the features, from the AI advisor to the admin dashboards. Just remember to keep the backend terminal running
+
+
+
+
+
+
+give steps to run this website on my pc
+Gemini 2.5 Pro
+Ran for 41s
+lightbulb
+Thought for 41 seconds
+Of course! I'd be happy to provide a clear, step-by-step guide to get the CareerMatch website running on your personal computer.
+This guide is designed to be easy to follow, even if you're not a professional developer.
+Prerequisites: What You Need First
+Before you start, make sure you have the following software installed on your PC:
+Node.js: This is the environment that runs the backend. You can download it from the official Node.js website. Installing Node.js will also automatically install npm, which is a tool we need.
+A Code Editor: I highly recommend Visual Studio Code (VS Code). It's free, powerful, and has extensions that will make this process easier. You can download it from the VS Code website.
+VS Code "Live Server" Extension: This will let you run the frontend with a single click.
+Open VS Code.
+Go to the Extensions view (click the icon with four squares on the side).
+Search for Live Server (by Ritwick Dey).
+Click "Install".
+Step 1: Get Your API Keys (Crucial for AI Features)
+The website's intelligent features rely on Google APIs. You'll need to get two sets of keys. This is the most important step!
+Google Gemini API Key (for AI):
+Go to the Google AI Studio website.
+Click "Create API key".
+Copy the key and save it in a temporary text file.
+Google OAuth 2.0 Credentials (for Google Login):
+Go to the Google Cloud Console.
+Create a new project if you don't have one.
+Go to Credentials, click + CREATE CREDENTIALS, and select OAuth client ID.
+If prompted, configure your "OAuth consent screen" first (choose "External" and fill in the required app name and email).
+For the Application type, select Web application.
+Under Authorized JavaScript origins, click + ADD URI and enter: http://localhost:3001
+Under Authorized redirect URIs, click + ADD URI and enter this exact value: http://localhost:3001/api/auth/google/callback
+Click Create.
+A window will pop up with your Client ID and Client Secret. Copy both of these and save them in your temporary text file.
+You should now have three secret keys saved.
+Step 2: Set Up and Run the Backend Server
+The backend is the "brain" of the website; it connects to the database and the AI.
+Open the Project: Open the main CareerMatch project folder in VS Code.
+Open a Terminal: In VS Code, go to the top menu and click Terminal -> New Terminal.
+Navigate to the Backend: The terminal will open at the project's root. Type the following command to go into the backend folder:
+code
+Bash
+cd backend
+Install Dependencies: This command reads the package.json file and downloads all the necessary code libraries for the backend.
+code
+Bash
+npm install
+Create Environment File: Create a special file to hold your secret API keys.
+On Windows PowerShell: copy .env.example .env
+On Mac/Linux or Git Bash: cp .env.example .env
+Add Your Keys:
+In the VS Code file explorer on the left, open the backend folder and find the new .env file.
+Open it and paste in the keys you saved from Step 1. It should look like this:
+code
+Code
+JWT_SECRET=a_very_secret_key_that_you_can_change
+GEMINI_API_KEY="PASTE_YOUR_GEMINI_API_KEY_HERE"
+GOOGLE_CLIENT_ID="PASTE_YOUR_GOOGLE_CLIENT_ID_HERE"
+GOOGLE_CLIENT_SECRET="PASTE_YOUR_GOOGLE_CLIENT_SECRET_HERE"
+Save the .env file.
+Set Up the Database: This single command will create the database file (data.sqlite3), build all the tables, and add the default admin user for you.
+code
+Bash
+npm run db:setup
+Start the Server!: Now, run the backend server.
+code
+Bash
+npm run dev
+You should see a message like Server running on port 3001. Leave this terminal open and running. The backend is now active and waiting for requests from the frontend.
+Step 3: Run the Frontend Website
+The frontend is the visual part of the website that you interact with in your browser.
+Find the index.html file in the VS Code file explorer. It should be in the main project folder.
+Right-click on the index.html file.
+Select "Open with Live Server" from the context menu.
+Your default web browser should automatically open a new tab with the CareerMatch website! The URL will look something like http://127.0.0.1:5500/index.html.
+Step 4: A Quick Fix for Google Login
+Because you are running the frontend on a different port than the backend, we need to make one small change so Google Login works correctly.
+In VS Code, open the file backend/routes/auth.js.
+Go to the very bottom of the file (around line 170).
+Find this line:
+code
+JavaScript
+res.redirect(`http://localhost:5173/#/auth/callback?token=${token}`);
+Replace 5173 with the port number your Live Server is using (e.g., 5500). The new line should look like this:
+code
+JavaScript
+res.redirect(`http://127.0.0.1:5500/#/auth/callback?token=${token}`);
+Save the backend/routes/auth.js file. The backend server in your terminal will automatically restart with the change.
+Step 5: You're Done! How to Use the Website
+Congratulations, the website is now fully running on your PC!
+To Log in as an Admin:
+Email: admin@example.com
+Password: admin123
+To Use as a Student:
+Click the "Sign Up" button on the landing page to create your own student account. You can sign up with your email or use the "Sign in with Google" button you just configured.
+You can now explore all the features, from the AI advisor to the admin dashboards. Just remember to keep the backend terminal running
+
+in backend 
+npm install dotenv
+npm install express mongoose cors jsonwebtoken bcryptjs
+npm install cookie-parser
+npm install multer
+npm install cloudinary
+npm install express mongoose cors jsonwebtoken bcryptjs cookie-parser multer
+npm list express
+npm uninstall @google/genai
+

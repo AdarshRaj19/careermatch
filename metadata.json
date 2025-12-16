@@ -1,0 +1,5 @@
+{
+  "name": "CareerMatch",
+  "description": "An intelligent platform that uses algorithms to connect talented students with their dream internships. It includes dashboards for both students and administrators to manage profiles, applications, and the allocation process.",
+  "requestFramePermissions": []
+}
