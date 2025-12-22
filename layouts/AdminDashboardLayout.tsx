@@ -20,8 +20,8 @@ const AdminDashboardLayout: React.FC = () => {
         <div className="flex h-screen bg-gray-100 dark:bg-gray-900 font-sans">
             <AdminSidebar />
             <div className="flex-1 flex flex-col overflow-hidden">
-                <header className="flex justify-between items-center p-4 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-                     <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">Admin Dashboard</h1>
+                <header className="flex justify-between items-center px-6 py-4 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
+                     <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Admin Dashboard</h1>
                      <div className="flex items-center space-x-4">
                          <ThemeSwitcher />
                          <div className="relative">

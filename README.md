@@ -13,3 +13,7 @@
 
 
 NEW CHANGE -- TEST
+<<<<<<< Updated upstream
+=======
+save all
+>>>>>>> Stashed changes

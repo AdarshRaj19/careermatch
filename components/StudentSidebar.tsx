@@ -18,18 +18,20 @@ const navItems = [
 
 const StudentSidebar: React.FC = () => {
     const { user } = useAuth();
-    const baseLinkClasses = "flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 transition-colors duration-200 transform rounded-lg";
-    const activeLinkClasses = "bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300";
-    const inactiveLinkClasses = "hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-200";
+    const baseLinkClasses = "flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 transition-all duration-200 rounded-lg font-medium";
+    const activeLinkClasses = "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg";
+    const inactiveLinkClasses = "hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white";
 
     return (
-        <aside className="flex flex-col w-64 h-screen px-4 py-8 bg-white dark:bg-gray-800 border-r dark:border-gray-700">
-            <div className="flex items-center px-2">
-                <BriefcaseIcon className="w-8 h-8 text-blue-600" />
-                <h2 className="ml-2 text-2xl font-bold text-gray-800 dark:text-gray-100">CareerMatch</h2>
+        <aside className="flex flex-col w-64 h-screen px-4 py-8 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 shadow-lg">
+            <div className="flex items-center px-2 mb-8">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 shadow-md">
+                    <BriefcaseIcon className="w-6 h-6 text-white" />
+                </div>
+                <h2 className="ml-3 text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent dark:from-blue-400 dark:to-blue-600">CareerMatch</h2>
             </div>
             
-            <nav className="flex flex-col flex-1 mt-10 space-y-2">
+            <nav className="flex flex-col flex-1 space-y-1">
                 {navItems.map(item => (
                     <NavLink
                         key={item.path}
@@ -39,26 +41,27 @@ const StudentSidebar: React.FC = () => {
                         }
                     >
                         <item.icon className="w-5 h-5" />
-                        <span className="mx-4 font-medium">{item.label}</span>
+                        <span className="ml-3">{item.label}</span>
                     </NavLink>
                 ))}
             </nav>
 
-            <div className="mt-auto">
-                 <div className="flex items-center p-2 space-x-4">
-                    <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center font-bold text-gray-600 dark:text-gray-300">
+            <div className="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
+                 <div className="flex items-center p-3 mb-3 rounded-lg bg-gray-50 dark:bg-gray-700/50">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center font-bold text-white shadow-md">
                        {user?.name?.charAt(0).toUpperCase()}
                     </div>
-                    <div>
-                        <h4 className="font-semibold text-gray-700 dark:text-gray-200">{user?.name}</h4>
+                    <div className="ml-3">
+                        <h4 className="font-semibold text-gray-900 dark:text-white text-sm">{user?.name}</h4>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">{user?.email}</p>
                     </div>
                 </div>
                 <NavLink
                     to="/student/profile" 
-                    className={`${baseLinkClasses} ${inactiveLinkClasses} mt-2`}
+                    className={`${baseLinkClasses} ${inactiveLinkClasses}`}
                 >
                     <SettingsIcon className="w-5 h-5" />
-                    <span className="mx-4 font-medium">Settings</span>
+                    <span className="ml-3">Settings</span>
                 </NavLink>
             </div>
         </aside>

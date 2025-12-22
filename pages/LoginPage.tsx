@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import Button from '../components/Button';
 import { BriefcaseIcon } from '../components/icons/Icon';
@@ -21,6 +21,22 @@ const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { login, user } = useAuth();
+  const location = useLocation();
+
+  // Check for error in URL params (from Google auth failure)
+  React.useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const errorParam = params.get('error');
+    if (errorParam) {
+      if (errorParam === 'auth_failed') {
+        setError('Google authentication failed. Please try again.');
+      } else if (errorParam === 'no_user') {
+        setError('Unable to create user account. Please try again.');
+      } else if (errorParam === 'server_error') {
+        setError('Server error during authentication. Please try again.');
+      }
+    }
+  }, [location]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -105,8 +121,16 @@ const LoginPage: React.FC = () => {
           <div className="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
         </div>
 
-        <a href="http://localhost:3001/api/auth/google" className="w-full">
-            <Button variant="outline" className="w-full dark:text-gray-200 dark:border-gray-500 dark:hover:bg-gray-700" size="lg">
+        <a 
+            href="http://localhost:3001/api/auth/google" 
+            className="w-full block"
+        >
+            <Button 
+                variant="outline" 
+                className="w-full flex items-center justify-center dark:text-gray-200 dark:border-gray-500 dark:hover:bg-gray-700" 
+                size="lg"
+                type="button"
+            >
                 <GoogleIcon />
                 Sign in with Google
             </Button>

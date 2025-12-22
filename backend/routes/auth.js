@@ -33,12 +33,16 @@ passport.use(new GoogleStrategy({
 
         // If no user exists at all, create a new one
         await db.transaction(async (trx) => {
-            const [newUser] = await trx('users').insert({
+            const insertResult = await trx('users').insert({
                 name: profile.displayName,
                 email: profile.emails[0].value,
                 google_id: profile.id,
                 role: 'student' // All new signups are students
-            }).returning('*');
+            });
+            
+            // SQLite returns lastInsertRowid as a number
+            const userId = typeof insertResult === 'number' ? insertResult : (Array.isArray(insertResult) ? insertResult[0] : insertResult);
+            const newUser = await trx('users').where({ id: userId }).first();
             
             await trx('student_profiles').insert({
                 user_id: newUser.id,
@@ -153,16 +157,25 @@ router.get('/google',
 
 // GET /api/auth/google/callback - Callback URL after Google auth
 router.get('/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/login', session: false }),
+  passport.authenticate('google', { failureRedirect: 'http://localhost:3000/#/login?error=auth_failed', session: false }),
   (req, res) => {
-    const user = req.user;
-    const token = jwt.sign(
-        { id: user.id, name: user.name, email: user.email, role: user.role },
-        process.env.JWT_SECRET,
-        { expiresIn: '1d' }
-    );
-    // Redirect to a frontend page with the token
-    res.redirect(`http://localhost:5173/#/auth/callback?token=${token}`);
+    try {
+      const user = req.user;
+      if (!user) {
+        return res.redirect('http://localhost:3000/#/login?error=no_user');
+      }
+      
+      const token = jwt.sign(
+          { id: user.id, name: user.name, email: user.email, role: user.role },
+          process.env.JWT_SECRET,
+          { expiresIn: '1d' }
+      );
+      // Redirect to frontend callback page with the token
+      res.redirect(`http://localhost:3000/#/auth/callback?token=${token}`);
+    } catch (error) {
+      console.error('Google callback error:', error);
+      res.redirect('http://localhost:3000/#/login?error=server_error');
+    }
   }
 );
 

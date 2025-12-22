@@ -17,18 +17,20 @@ const adminNavItems = [
 ];
 
 const AdminSidebar: React.FC = () => {
-    const baseLinkClasses = "flex items-center px-4 py-3 text-gray-600 transition-colors duration-200 transform rounded-lg";
-    const activeLinkClasses = "bg-blue-100 text-blue-700";
-    const inactiveLinkClasses = "hover:bg-gray-200 hover:text-gray-700";
+    const baseLinkClasses = "flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 transition-all duration-200 rounded-lg font-medium";
+    const activeLinkClasses = "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg";
+    const inactiveLinkClasses = "hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white";
     
     return (
-        <aside className="flex flex-col w-64 h-screen px-4 py-8 bg-white border-r">
-            <div className="flex items-center px-2">
-                <BriefcaseIcon className="w-8 h-8 text-blue-600" />
-                <h2 className="ml-2 text-2xl font-bold text-gray-800">CareerMatch</h2>
+        <aside className="flex flex-col w-64 h-screen px-4 py-8 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 shadow-lg">
+            <div className="flex items-center px-2 mb-8">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 shadow-md">
+                    <BriefcaseIcon className="w-6 h-6 text-white" />
+                </div>
+                <h2 className="ml-3 text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent dark:from-blue-400 dark:to-blue-600">CareerMatch</h2>
             </div>
             
-            <nav className="flex flex-col flex-1 mt-10 space-y-2">
+            <nav className="flex flex-col flex-1 space-y-1">
                 {adminNavItems.map(item => (
                     <NavLink
                         key={item.path}
@@ -38,19 +40,19 @@ const AdminSidebar: React.FC = () => {
                         }
                     >
                         <item.icon className="w-5 h-5" />
-                        <span className="mx-4 font-medium">{item.label}</span>
+                        <span className="ml-3">{item.label}</span>
                     </NavLink>
                 ))}
             </nav>
-            <div className="mt-auto">
+            <div className="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
                 <NavLink
                     to="settings"
                     className={({ isActive }) =>
-                        `${baseLinkClasses} ${isActive ? activeLinkClasses : inactiveLinkClasses} mt-2`
+                        `${baseLinkClasses} ${isActive ? activeLinkClasses : inactiveLinkClasses}`
                     }
                 >
                     <SettingsIcon className="w-5 h-5" />
-                    <span className="mx-4 font-medium">Settings</span>
+                    <span className="ml-3">Settings</span>
                 </NavLink>
             </div>
         </aside>
