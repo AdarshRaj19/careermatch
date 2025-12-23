@@ -138,3 +138,4 @@ The frontend is a static React application that is automatically built and serve
 ---
 
 This document should provide a solid foundation for understanding the CareerMatch project. The combination of a robust backend, an interactive frontend, and powerful AI integration makes it a professional and highly functional application.
+ 
