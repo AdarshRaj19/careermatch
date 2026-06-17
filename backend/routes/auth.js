@@ -10,17 +10,17 @@ const router = express.Router();
 const saltRounds = 10;
 
 // Passport Google OAuth20 Strategy
-passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3001/api/auth/google/callback"
-  },
-  async (accessToken, refreshToken, profile, done) => {
-    try {
-        let user = await db('users').where({ google_id: profile.id }).first();
-        if (user) {
-            return done(null, user);
-        }
+// passport.use(new GoogleStrategy({
+//     clientID: process.env.GOOGLE_CLIENT_ID,
+//     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//     callbackURL: "http://localhost:3001/api/auth/google/callback"
+//   },
+//   async (accessToken, refreshToken, profile, done) => {
+//     try {
+//         let user = await db('users').where({ google_id: profile.id }).first();
+//         if (user) {
+//             return done(null, user);
+//         }
         
         // If no user with google_id, check if one exists with that email
         user = await db('users').where({ email: profile.emails[0].value }).first();
