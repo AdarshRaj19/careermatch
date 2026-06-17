@@ -3,8 +3,8 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require('../db');
-const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+//const passport = require('passport');
+//const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const router = express.Router();
 const saltRounds = 10;
@@ -23,44 +23,44 @@ const saltRounds = 10;
 //         }
         
         // If no user with google_id, check if one exists with that email
-        user = await db('users').where({ email: profile.emails[0].value }).first();
+//         user = await db('users').where({ email: profile.emails[0].value }).first();
         
-        if (user) {
-            // Link Google ID to existing account
-            await db('users').where({ id: user.id }).update({ google_id: profile.id });
-            return done(null, user);
-        }
+//         if (user) {
+//             // Link Google ID to existing account
+//             await db('users').where({ id: user.id }).update({ google_id: profile.id });
+//             return done(null, user);
+//         }
 
-        // If no user exists at all, create a new one
-        await db.transaction(async (trx) => {
-            const insertResult = await trx('users').insert({
-                name: profile.displayName,
-                email: profile.emails[0].value,
-                google_id: profile.id,
-                role: 'student' // All new signups are students
-            });
+//         // If no user exists at all, create a new one
+//         await db.transaction(async (trx) => {
+//             const insertResult = await trx('users').insert({
+//                 name: profile.displayName,
+//                 email: profile.emails[0].value,
+//                 google_id: profile.id,
+//                 role: 'student' // All new signups are students
+//             });
             
-            // SQLite returns lastInsertRowid as a number
-            const userId = typeof insertResult === 'number' ? insertResult : (Array.isArray(insertResult) ? insertResult[0] : insertResult);
-            const newUser = await trx('users').where({ id: userId }).first();
+//             // SQLite returns lastInsertRowid as a number
+//             const userId = typeof insertResult === 'number' ? insertResult : (Array.isArray(insertResult) ? insertResult[0] : insertResult);
+//             const newUser = await trx('users').where({ id: userId }).first();
             
-            await trx('student_profiles').insert({
-                user_id: newUser.id,
-                name: newUser.name,
-                email: newUser.email,
-                skills: '[]'
-            });
+//             await trx('student_profiles').insert({
+//                 user_id: newUser.id,
+//                 name: newUser.name,
+//                 email: newUser.email,
+//                 skills: '[]'
+//             });
 
-            user = newUser;
-        });
+//             user = newUser;
+//         });
 
-        return done(null, user);
+//         return done(null, user);
 
-    } catch (error) {
-        return done(error, null);
-    }
-  }
-));
+//     } catch (error) {
+//         return done(error, null);
+//     }
+//   }
+// ));
 
 // POST /api/auth/register
 router.post('/register', async (req, res) => {
