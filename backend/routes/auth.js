@@ -151,33 +151,33 @@ router.post('/login', async (req, res) => {
 
 
 // GET /api/auth/google - Initiates Google Login
-router.get('/google',
-  passport.authenticate('google', { scope: ['profile', 'email'], session: false })
-);
+// router.get('/google',
+//   passport.authenticate('google', { scope: ['profile', 'email'], session: false })
+// );
 
-// GET /api/auth/google/callback - Callback URL after Google auth
-router.get('/google/callback', 
-  passport.authenticate('google', { failureRedirect: 'http://localhost:3000/#/login?error=auth_failed', session: false }),
-  (req, res) => {
-    try {
-      const user = req.user;
-      if (!user) {
-        return res.redirect('http://localhost:3000/#/login?error=no_user');
-      }
+// // GET /api/auth/google/callback - Callback URL after Google auth
+// router.get('/google/callback', 
+//   passport.authenticate('google', { failureRedirect: 'http://localhost:3000/#/login?error=auth_failed', session: false }),
+//   (req, res) => {
+//     try {
+//       const user = req.user;
+//       if (!user) {
+//         return res.redirect('http://localhost:3000/#/login?error=no_user');
+//       }
       
-      const token = jwt.sign(
-          { id: user.id, name: user.name, email: user.email, role: user.role },
-          process.env.JWT_SECRET,
-          { expiresIn: '1d' }
-      );
-      // Redirect to frontend callback page with the token
-      res.redirect(`http://localhost:3000/#/auth/callback?token=${token}`);
-    } catch (error) {
-      console.error('Google callback error:', error);
-      res.redirect('http://localhost:3000/#/login?error=server_error');
-    }
-  }
-);
+//       const token = jwt.sign(
+//           { id: user.id, name: user.name, email: user.email, role: user.role },
+//           process.env.JWT_SECRET,
+//           { expiresIn: '1d' }
+//       );
+//       // Redirect to frontend callback page with the token
+//       res.redirect(`http://localhost:3000/#/auth/callback?token=${token}`);
+//     } catch (error) {
+//       console.error('Google callback error:', error);
+//       res.redirect('http://localhost:3000/#/login?error=server_error');
+//     }
+//   }
+// );
 
 
 module.exports = router;
