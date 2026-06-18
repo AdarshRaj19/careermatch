@@ -10,7 +10,9 @@ router.get('/internships', async (req, res) => {
         // Knex returns skills as a JSON string, so we need to parse it.
         const parsedInternships = internships.map(internship => ({
             ...internship,
-            skills: JSON.parse(internship.skills)
+            skills: internship.skills
+              ? (typeof internship.skills === 'string' ? JSON.parse(internship.skills) : internship.skills)
+              : []
         }));
         res.json(parsedInternships);
     } catch (error) {

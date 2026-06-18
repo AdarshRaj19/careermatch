@@ -1,8 +1,10 @@
+const path = require('path');
+
 module.exports = {
   development: {
     client: 'sqlite3',
     connection: {
-      filename: './data.sqlite3'
+      filename: path.resolve(__dirname, 'data.sqlite3')
     },
     useNullAsDefault: true,
     pool: {
@@ -11,10 +13,10 @@ module.exports = {
       }
     },
     migrations: {
-      directory: './migrations'
+      directory: path.resolve(__dirname, 'migrations')
     },
     seeds: {
-      directory: './seeds'
+      directory: path.resolve(__dirname, 'seeds')
     }
   },
 };

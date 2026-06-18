@@ -12,7 +12,8 @@ const authMiddleware = (allowedRoles) => {
     const token = authHeader.split(' ')[1];
 
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const secret = process.env.JWT_SECRET || 'default_dev_jwt_secret';
+      const decoded = jwt.verify(token, secret);
       req.user = decoded; // Add user payload to request object
 
       if (allowedRoles && allowedRoles.length > 0 && !allowedRoles.includes(decoded.role)) {

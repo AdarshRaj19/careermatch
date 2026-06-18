@@ -8,6 +8,11 @@ const db = require('../db');
 
 const router = express.Router();
 const saltRounds = 10;
+const JWT_SECRET = process.env.JWT_SECRET || 'default_dev_jwt_secret';
+
+if (!process.env.JWT_SECRET) {
+  console.warn('WARNING: JWT_SECRET is not set. Using default secret. This is insecure for production.');
+}
 
 // Passport Google OAuth20 Strategy
 // passport.use(new GoogleStrategy({
@@ -126,7 +131,7 @@ router.post('/register', async (req, res) => {
     // Send response AFTER transaction finishes
     const token = jwt.sign(
       { id: newUser.id, name: newUser.name, email: newUser.email, role: newUser.role },
-      process.env.JWT_SECRET,
+      JWT_SECRET,
       { expiresIn: '1d' }
     );
 
@@ -162,7 +167,7 @@ router.post('/login', async (req, res) => {
 
     const token = jwt.sign(
       { id: user.id, name: user.name, email: user.email, role: user.role },
-      process.env.JWT_SECRET,
+      JWT_SECRET,
       { expiresIn: '1d' }
     );
 

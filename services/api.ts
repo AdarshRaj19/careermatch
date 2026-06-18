@@ -1,6 +1,7 @@
 // Centralized API wrapper using fetch
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ||
+    (typeof window !== 'undefined' ? `${window.location.origin}/api` : 'http://localhost:3001/api');
 
 const request = async (endpoint: string, options: RequestInit = {}) => {
     const token = localStorage.getItem('token');
