@@ -1,7 +1,11 @@
 // Centralized API wrapper using fetch
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ||
-    (typeof window !== 'undefined' ? `${window.location.origin}/api` : 'http://localhost:3001/api');
+    (typeof window !== 'undefined'
+      ? (window.location.hostname.includes('vercel.app')
+          ? 'https://careermatch-484q.onrender.com/api'
+          : `${window.location.origin}/api`)
+      : 'http://localhost:3001/api');
 
 const request = async (endpoint: string, options: RequestInit = {}) => {
     const token = localStorage.getItem('token');
