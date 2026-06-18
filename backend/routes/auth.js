@@ -82,14 +82,38 @@ router.post('/register', async (req, res) => {
 
     // Transaction (NO response inside)
     await db.transaction(async (trx) => {
-      const [id] = await trx('users').insert({
+      const insertResult = await trx('users').insert({
         name,
         email,
         password_hash: passwordHash,
         role: 'student'
       });
 
+      const id = typeof insertResult === 'number'
+        ? insertResult
+        : Array.isArray(insertResult)
+          ? insertResult[0]
+          : insertResult;
+
+      if (!id) {
+        throw new Error('Unable to create user');
+      }
+
       newUser = await trx('users').where({ id }).first();
+      if (!newUser) {
+        throw new Error('Unable to load created user');
+      }
+
+      const hasStudentProfiles = await trx.schema.hasTable('student_profiles');
+      if (!hasStudentProfiles) {
+        await trx.schema.createTable('student_profiles', (table) => {
+          table.increments('id').primary();
+          table.integer('user_id').unsigned().references('id').inTable('users');
+          table.string('name').notNullable();
+          table.string('email').notNullable();
+          table.text('skills').defaultTo('[]');
+        });
+      }
 
       await trx('student_profiles').insert({
         user_id: id,

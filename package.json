@@ -5,10 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:frontend": "vite",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:all": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
     "build": "vite build",
     "preview": "vite preview",
-    
-  "start": "node index.js"
+    "start": "node backend/server.js"
   },
   "dependencies": {
     "axios": "^1.13.2",
@@ -21,6 +23,7 @@
   "devDependencies": {
     "@types/node": "^22.14.0",
     "@vitejs/plugin-react": "^5.0.0",
+    "concurrently": "^9.0.0",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
   }

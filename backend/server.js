@@ -16,13 +16,42 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 🔥 Correct CORS
+// 🔥 CORS for local development
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+];
+
 app.use(cors({
-  origin: "http://localhost:3000",
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: (origin, callback) => {
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    if (process.env.NODE_ENV !== 'production') {
+      return callback(null, true);
+    }
+
+    // Allow deployed frontends by env var when running in production
+    if (process.env.ALLOWED_ORIGINS) {
+      const envOrigins = process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim());
+      if (envOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+    }
+
+    return callback(new Error(`Origin not allowed by CORS: ${origin}`));
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
+
+app.options('*', cors());
 
 // Static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
