@@ -47,14 +47,15 @@ const SkillsModal: React.FC<{
                             onKeyPress={(e) => e.key === 'Enter' && handleAddSkill()}
                             placeholder="Add a new skill"
                             className="flex-grow p-2 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
+                            aria-label="New skill"
                         />
-                        <Button onClick={handleAddSkill}><PlusIcon className="w-4 h-4" /></Button>
+                        <Button onClick={handleAddSkill} aria-label="Add skill" title="Add skill"><PlusIcon className="w-4 h-4" /></Button>
                     </div>
                     <div className="mt-4 flex flex-wrap gap-2 max-h-60 overflow-y-auto">
                         {currentSkills.map(skill => (
                             <span key={skill} className="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-1 rounded-full flex items-center">
                                 {skill}
-                                <button onClick={() => handleRemoveSkill(skill)} className="ml-2 text-blue-600 hover:text-blue-800">
+                                <button type="button" onClick={() => handleRemoveSkill(skill)} aria-label={`Remove ${skill}`} title={`Remove ${skill}`} className="ml-2 text-blue-600 hover:text-blue-800">
                                     <XIcon className="w-3 h-3"/>
                                 </button>
                             </span>
@@ -253,17 +254,46 @@ const StudentProfilePage: React.FC = () => {
                     <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 border-b dark:border-gray-700 pb-2">Your Profile</h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400">This information will be used to match you with internships.</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="hidden" name="name" value={profile.name} onChange={handleInputChange} />
-                        <div><label className="text-sm font-medium text-gray-600 dark:text-gray-300">Name</label><input type="text" name="name" value={profile.name} onChange={handleInputChange} className="mt-1 w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600" /></div>
-                        <div><label className="text-sm font-medium text-gray-600 dark:text-gray-300">Email</label><input type="email" value={profile.email} disabled className="mt-1 w-full p-2 border rounded-md bg-gray-200 dark:bg-gray-600 cursor-not-allowed" /></div>
-                        <div><label className="text-sm font-medium text-gray-600 dark:text-gray-300">Phone</label><input type="text" name="phone" value={profile.phone} onChange={handleInputChange} className="mt-1 w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600" /></div>
-                        <div><label className="text-sm font-medium text-gray-600 dark:text-gray-300">University</label><input type="text" name="university" value={profile.university} onChange={handleInputChange} className="mt-1 w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600" /></div>
-                        <div><label className="text-sm font-medium text-gray-600 dark:text-gray-300">College</label><input type="text" name="college" value={profile.college} onChange={handleInputChange} className="mt-1 w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600" /></div>
-                        <div><label className="text-sm font-medium text-gray-600 dark:text-gray-300">Degree</label><input type="text" name="degree" value={profile.degree} onChange={handleInputChange} className="mt-1 w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600" /></div>
-                        <div><label className="text-sm font-medium text-gray-600 dark:text-gray-300">Branch</label><input type="text" name="branch" value={profile.branch} onChange={handleInputChange} className="mt-1 w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600" /></div>
-                        <div><label className="text-sm font-medium text-gray-600 dark:text-gray-300">Year</label><input type="number" name="year" value={profile.year} onChange={handleInputChange} className="mt-1 w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600" /></div>
-                        <div><label className="text-sm font-medium text-gray-600 dark:text-gray-300">CGPA</label><input type="text" name="cgpa" value={profile.cgpa} onChange={handleInputChange} className="mt-1 w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600" /></div>
-                        <div><label className="text-sm font-medium text-gray-600 dark:text-gray-300">Credits Earned</label><input type="number" name="creditsEarned" value={profile.creditsEarned} onChange={handleInputChange} className="mt-1 w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600" /></div>
+                        <div>
+                            <label htmlFor="profile-name" className="text-sm font-medium text-gray-600 dark:text-gray-300">Name</label>
+                            <input id="profile-name" type="text" name="name" value={profile.name} onChange={handleInputChange} placeholder="Full name" className="mt-1 w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600" />
+                        </div>
+                        <div>
+                            <label htmlFor="profile-email" className="text-sm font-medium text-gray-600 dark:text-gray-300">Email</label>
+                            <input id="profile-email" type="email" value={profile.email} disabled placeholder="Email address" className="mt-1 w-full p-2 border rounded-md bg-gray-200 dark:bg-gray-600 cursor-not-allowed" />
+                        </div>
+                        <div>
+                            <label htmlFor="profile-phone" className="text-sm font-medium text-gray-600 dark:text-gray-300">Phone</label>
+                            <input id="profile-phone" type="text" name="phone" value={profile.phone} onChange={handleInputChange} placeholder="Phone number" className="mt-1 w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600" />
+                        </div>
+                        <div>
+                            <label htmlFor="profile-university" className="text-sm font-medium text-gray-600 dark:text-gray-300">University</label>
+                            <input id="profile-university" type="text" name="university" value={profile.university} onChange={handleInputChange} placeholder="University" className="mt-1 w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600" />
+                        </div>
+                        <div>
+                            <label htmlFor="profile-college" className="text-sm font-medium text-gray-600 dark:text-gray-300">College</label>
+                            <input id="profile-college" type="text" name="college" value={profile.college} onChange={handleInputChange} placeholder="College" className="mt-1 w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600" />
+                        </div>
+                        <div>
+                            <label htmlFor="profile-degree" className="text-sm font-medium text-gray-600 dark:text-gray-300">Degree</label>
+                            <input id="profile-degree" type="text" name="degree" value={profile.degree} onChange={handleInputChange} placeholder="Degree" className="mt-1 w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600" />
+                        </div>
+                        <div>
+                            <label htmlFor="profile-branch" className="text-sm font-medium text-gray-600 dark:text-gray-300">Branch</label>
+                            <input id="profile-branch" type="text" name="branch" value={profile.branch} onChange={handleInputChange} placeholder="Branch" className="mt-1 w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600" />
+                        </div>
+                        <div>
+                            <label htmlFor="profile-year" className="text-sm font-medium text-gray-600 dark:text-gray-300">Year</label>
+                            <input id="profile-year" type="number" name="year" value={profile.year} onChange={handleInputChange} placeholder="Year" className="mt-1 w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600" />
+                        </div>
+                        <div>
+                            <label htmlFor="profile-cgpa" className="text-sm font-medium text-gray-600 dark:text-gray-300">CGPA</label>
+                            <input id="profile-cgpa" type="text" name="cgpa" value={profile.cgpa} onChange={handleInputChange} placeholder="CGPA" className="mt-1 w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600" />
+                        </div>
+                        <div>
+                            <label htmlFor="profile-credits-earned" className="text-sm font-medium text-gray-600 dark:text-gray-300">Credits Earned</label>
+                            <input id="profile-credits-earned" type="number" name="creditsEarned" value={profile.creditsEarned} onChange={handleInputChange} placeholder="Credits earned" className="mt-1 w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600" />
+                        </div>
                     </div>
                     <div className="flex justify-end items-center space-x-4 pt-4">
                         <Button variant='outline' onClick={handleRequestDistrictChange}>Request District Change</Button>

@@ -61,7 +61,7 @@ const CareerQuizModal: React.FC<{ onClose: () => void, onComplete: (results: Qui
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-lg p-6">
                 <div className="flex justify-between items-center mb-4">
                      <h2 className="text-xl font-bold">Career Quiz</h2>
-                     <button onClick={onClose}><XIcon className="w-6 h-6"/></button>
+                     <button onClick={onClose} aria-label="Close quiz"><XIcon className="w-6 h-6"/></button>
                 </div>
                 <div>
                     <p className="font-semibold text-lg mb-4">{quizQuestions[step].question}</p>
@@ -189,7 +189,7 @@ const ChatbotSection: React.FC = () => {
     };
     
     return (
-         <div className="bg-white dark:bg-gray-800 rounded-lg shadow h-[70vh] flex flex-col">
+         <div className="bg-white dark:bg-gray-800 rounded-lg shadow flex flex-col min-h-[60vh]">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 p-4 border-b dark:border-gray-700">Chat with AI Advisor</h2>
             <div className="flex-1 p-4 overflow-y-auto space-y-4">
                 {messages.map((msg, index) => (

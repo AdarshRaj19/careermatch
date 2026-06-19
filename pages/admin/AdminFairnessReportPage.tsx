@@ -70,16 +70,16 @@ const AdminFairnessReportPage: React.FC = () => {
             
             <div className="bg-white p-6 rounded-lg shadow">
                  <h2 className="text-lg font-semibold">Filters</h2>
-                 <div className="flex space-x-4 mt-2">
-                    <select className="border p-2 rounded-md"><option>2024 Cycle</option></select>
-                    <select className="border p-2 rounded-md"><option>All States</option></select>
+                 <div className="flex flex-col gap-3 md:flex-row md:space-x-4 mt-2">
+                    <select aria-label="Filter reporting cycle" className="border p-2 rounded-md"><option>2024 Cycle</option></select>
+                    <select aria-label="Filter state" className="border p-2 rounded-md"><option>All States</option></select>
                  </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                  <div className="bg-white p-6 rounded-lg shadow">
                     <h2 className="text-lg font-semibold">Placement Rate by Gender</h2>
-                    <div style={{ width: '100%', height: 300 }}>
+                    <div className="w-full h-[300px]">
                         <ResponsiveContainer>
                             <BarChart data={reportData.genderData} layout="vertical" margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                                 <XAxis type="number" domain={[0, 100]} unit="%" />
@@ -92,7 +92,7 @@ const AdminFairnessReportPage: React.FC = () => {
                 </div>
                  <div className="bg-white p-6 rounded-lg shadow">
                     <h2 className="text-lg font-semibold">Placement Rate by District Type</h2>
-                     <div style={{ width: '100%', height: 300 }}>
+                     <div className="w-full h-[300px]">
                         <ResponsiveContainer>
                             <BarChart data={reportData.districtData} layout="vertical" margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                                 <XAxis type="number" domain={[0, 100]} unit="%" />

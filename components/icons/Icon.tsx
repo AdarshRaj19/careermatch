@@ -129,3 +129,7 @@ export const HelpCircleIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) =
 export const SendIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     <Icon {...props}><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></Icon>
 );
+
+export const MenuIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+    <Icon {...props}><path d="M4 6h16M4 12h16M4 18h16" /></Icon>
+);

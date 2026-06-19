@@ -93,7 +93,7 @@ const StudentPreferencesPage: React.FC = () => {
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow space-y-4">
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">Browse Internships</h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400">Search, filter, and add internships to your ranked list.</p>
-                <div className="flex gap-2">
+                <div className="flex flex-col gap-3 md:flex-row md:items-center">
                     <div className="relative flex-grow">
                         <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                         <input 
@@ -104,8 +104,9 @@ const StudentPreferencesPage: React.FC = () => {
                             onChange={e => setSearchTerm(e.target.value)}
                         />
                     </div>
-                    <div className="relative">
+                    <div className="relative w-full md:w-auto">
                        <select 
+                            aria-label="Filter internship location"
                             className="appearance-none w-full md:w-40 bg-white dark:bg-gray-700 border rounded-md py-2 px-4 pr-8 focus:outline-none dark:border-gray-600"
                             value={locationFilter}
                             onChange={e => setLocationFilter(e.target.value)}

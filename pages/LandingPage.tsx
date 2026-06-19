@@ -1,11 +1,10 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../components/Button';
-// FIX: Added BookOpenIcon to the import statement to resolve the "Cannot find name 'BookOpenIcon'" error.
-import { BriefcaseIcon, BrainCircuitIcon, CheckSquareIcon, FileTextIcon, SearchIcon, ShieldCheckIcon, SettingsIcon, UserIcon, BookOpenIcon } from '../components/icons/Icon';
+import { BriefcaseIcon, BrainCircuitIcon, CheckSquareIcon, FileTextIcon, SearchIcon, ShieldCheckIcon, SettingsIcon, UserIcon, BookOpenIcon, MenuIcon, XIcon } from '../components/icons/Icon';
 
-const Header: React.FC = () => {
+const Header: React.FC<{ isMenuOpen: boolean; toggleMenu: () => void; }> = ({ isMenuOpen, toggleMenu }) => {
     const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
         e.preventDefault();
         const element = document.getElementById(targetId);
@@ -22,7 +21,8 @@ const Header: React.FC = () => {
     };
 
     return (
-        <header className="fixed top-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg border-b border-gray-200/50 dark:border-gray-700/50 z-50">
+        <>
+            <header className="fixed top-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg border-b border-gray-200/50 dark:border-gray-700/50 z-50">
             <div className="container mx-auto px-6 py-4 flex justify-between items-center">
                 <Link to="/" className="flex items-center group">
                     <div className="p-2 rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 shadow-md group-hover:shadow-lg transition-shadow">
@@ -30,6 +30,13 @@ const Header: React.FC = () => {
                     </div>
                     <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent dark:from-blue-400 dark:to-blue-600 ml-3">CareerMatch</h1>
                 </Link>
+                <button
+                    onClick={toggleMenu}
+                    className="inline-flex items-center justify-center rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 md:hidden"
+                    aria-label="Toggle navigation menu"
+                >
+                    <MenuIcon className="h-5 w-5" />
+                </button>
                 <nav className="hidden md:flex items-center space-x-6">
                     <a 
                         href="#features" 
@@ -62,7 +69,35 @@ const Header: React.FC = () => {
                     </Link>
                 </div>
             </div>
-        </header>
+            </header>
+            {isMenuOpen && (
+                <div className="fixed inset-0 z-50 md:hidden">
+                    <div className="absolute inset-0 bg-black/40" onClick={toggleMenu} />
+                    <div className="absolute top-0 right-0 w-72 h-full bg-white dark:bg-gray-900 shadow-2xl p-6">
+                        <div className="flex items-center justify-between mb-8">
+                            <Link to="/" className="flex items-center">
+                                <div className="p-2 rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 shadow-md">
+                                    <BriefcaseIcon className="w-6 h-6 text-white" />
+                                </div>
+                                <span className="ml-3 text-xl font-bold text-gray-900 dark:text-white">CareerMatch</span>
+                            </Link>
+                            <button onClick={toggleMenu} aria-label="Close menu" className="text-gray-700 dark:text-gray-300 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                                <XIcon className="h-5 w-5" />
+                            </button>
+                        </div>
+                        <nav className="space-y-4">
+                            <a href="#features" onClick={(e) => { handleSmoothScroll(e, 'features'); toggleMenu(); }} className="block text-lg font-medium text-gray-800 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Features</a>
+                            <a href="#how-it-works" onClick={(e) => { handleSmoothScroll(e, 'how-it-works'); toggleMenu(); }} className="block text-lg font-medium text-gray-800 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">How It Works</a>
+                            <a href="#pm-scheme" onClick={(e) => { handleSmoothScroll(e, 'pm-scheme'); toggleMenu(); }} className="block text-lg font-medium text-gray-800 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">PM Scheme</a>
+                        </nav>
+                        <div className="mt-8 border-t border-gray-200 dark:border-gray-700 pt-6">
+                            <Link to="/login" onClick={toggleMenu} className="block mb-3 px-4 py-3 rounded-lg text-center bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700">Login</Link>
+                            <Link to="/signup" onClick={toggleMenu} className="block px-4 py-3 rounded-lg text-center bg-blue-600 text-white hover:bg-blue-700">Sign Up</Link>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </>
     );
 };
 
@@ -89,6 +124,8 @@ const Step: React.FC<{ number: string, title: string, description: string }> = (
 );
 
 const LandingPage: React.FC = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
     useEffect(() => {
         // Enable smooth scrolling behavior for the entire page
         document.documentElement.style.scrollBehavior = 'smooth';
@@ -116,7 +153,7 @@ const LandingPage: React.FC = () => {
     
     return (
         <div className="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans">
-            <Header />
+            <Header isMenuOpen={isMenuOpen} toggleMenu={() => setIsMenuOpen(!isMenuOpen)} />
 
             {/* Hero Section */}
             <section className="relative pt-32 pb-24 bg-gradient-to-br from-gray-50 via-blue-50/30 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 overflow-hidden">

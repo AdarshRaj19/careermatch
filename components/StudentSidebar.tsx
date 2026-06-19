@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { HomeIcon, BriefcaseIcon, BookOpenIcon, BrainCircuitIcon, BookmarkIcon, SettingsIcon, UserIcon } from './icons/Icon';
+import { BriefcaseIcon, BookOpenIcon, BrainCircuitIcon, BookmarkIcon, SettingsIcon, UserIcon } from './icons/Icon';
 import { useAuth } from '../contexts/AuthContext';
 
 const navItems = [
@@ -16,14 +16,18 @@ const navItems = [
     { path: 'saved', label: 'Saved', icon: BookmarkIcon },
 ];
 
-const StudentSidebar: React.FC = () => {
+interface StudentSidebarProps {
+    className?: string;
+}
+
+const StudentSidebar: React.FC<StudentSidebarProps> = ({ className = '' }) => {
     const { user } = useAuth();
     const baseLinkClasses = "flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 transition-all duration-200 rounded-lg font-medium";
     const activeLinkClasses = "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg";
     const inactiveLinkClasses = "hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white";
 
     return (
-        <aside className="flex flex-col w-64 h-screen px-4 py-8 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 shadow-lg">
+        <aside className={`flex flex-col w-64 h-screen px-4 py-8 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 shadow-lg ${className}`}>
             <div className="flex items-center px-2 mb-8">
                 <div className="p-2 rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 shadow-md">
                     <BriefcaseIcon className="w-6 h-6 text-white" />

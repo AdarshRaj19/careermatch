@@ -51,16 +51,16 @@ const AdminWhatIfSimulatorPage: React.FC = () => {
                 <p className="text-sm text-gray-500">Adjust the weights for different factors in the allocation algorithm.</p>
                 <div className="mt-6 space-y-6">
                     <div>
-                        <label className="font-medium">Skill Match Weight ({skillWeight}%)</label>
-                        <input type="range" min="0" max="100" value={skillWeight} onChange={e => setSkillWeight(Number(e.target.value))} className="w-full mt-2" />
+                        <label htmlFor="skill-weight" className="font-medium">Skill Match Weight ({skillWeight}%)</label>
+                        <input id="skill-weight" type="range" min="0" max="100" value={skillWeight} onChange={e => setSkillWeight(Number(e.target.value))} className="w-full mt-2" aria-label="Skill match weight" />
                     </div>
                      <div>
-                        <label className="font-medium">Student Preference Weight ({preferenceWeight}%)</label>
-                        <input type="range" min="0" max="100" value={preferenceWeight} onChange={e => setPreferenceWeight(Number(e.target.value))} className="w-full mt-2" />
+                        <label htmlFor="preference-weight" className="font-medium">Student Preference Weight ({preferenceWeight}%)</label>
+                        <input id="preference-weight" type="range" min="0" max="100" value={preferenceWeight} onChange={e => setPreferenceWeight(Number(e.target.value))} className="w-full mt-2" aria-label="Student preference weight" />
                     </div>
                      <div>
-                        <label className="font-medium">Fairness Boost ({fairnessBoost}%)</label>
-                        <input type="range" min="0" max="100" value={fairnessBoost} onChange={e => setFairnessBoost(Number(e.target.value))} className="w-full mt-2" />
+                        <label htmlFor="fairness-boost" className="font-medium">Fairness Boost ({fairnessBoost}%)</label>
+                        <input id="fairness-boost" type="range" min="0" max="100" value={fairnessBoost} onChange={e => setFairnessBoost(Number(e.target.value))} className="w-full mt-2" aria-label="Fairness boost" />
                     </div>
                 </div>
                 <Button onClick={runSimulation} className="w-full mt-8" disabled={isLoading}>
@@ -70,7 +70,7 @@ const AdminWhatIfSimulatorPage: React.FC = () => {
              <div className="lg:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
                 <h2 className="text-xl font-semibold">Simulated Outcomes</h2>
                 <p className="text-sm text-gray-500">Comparison of current allocation vs. simulated allocation based on your new weights.</p>
-                 <div style={{ width: '100%', height: 400 }} className="mt-4">
+                 <div className="w-full h-[400px] mt-4">
                     {isFetchingInitial ? (
                         <p>Loading chart data...</p>
                     ) : (

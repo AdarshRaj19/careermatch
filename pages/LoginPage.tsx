@@ -59,20 +59,20 @@ const LoginPage: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col justify-center items-center">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col justify-center items-center px-4 py-10 sm:px-6">
       <div className="text-center mb-8">
         <div className="flex justify-center items-center">
             <BriefcaseIcon className="w-10 h-10 text-blue-600" />
             <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100 ml-3">CareerMatch</h1>
         </div>
       </div>
-      <div className="max-w-md w-full bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+      <div className="max-w-md w-full bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-xl shadow-lg">
         <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100">Log In</h2>
         <p className="text-center text-gray-500 dark:text-gray-400 mt-2 mb-6">Enter your email and password to continue</p>
         
         {error && <p className="text-red-500 text-center text-sm mb-4">{error}</p>}
 
-        <form onSubmit={handleSubmit} className="space-y-8 pt-4">
+        <form onSubmit={handleSubmit} className="space-y-6 pt-4">
           <div className="relative">
             <input
               id="email"

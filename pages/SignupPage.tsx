@@ -53,7 +53,7 @@ const SignupPage: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col justify-center items-center py-12">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col justify-center items-center px-4 py-12 sm:px-6">
       <div className="text-center mb-8">
         <div className="flex justify-center items-center">
             <div className="p-2 rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 shadow-md">
@@ -62,7 +62,7 @@ const SignupPage: React.FC = () => {
             <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent ml-3">CareerMatch</h1>
         </div>
       </div>
-      <div className="max-w-md w-full bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-200/50 dark:border-gray-700/50">
+      <div className="max-w-md w-full bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-2xl border border-gray-200/50 dark:border-gray-700/50">
         <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-white">Sign Up</h2>
         <p className="text-center text-gray-500 dark:text-gray-400 mt-2 mb-6">Create your account to get started</p>
 

@@ -18,7 +18,7 @@ export const CourseDetailsModal: React.FC<{
                 <div className="p-6 overflow-y-auto">
                     <div className="flex justify-between items-start">
                          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">{course.title}</h2>
-                         <button onClick={onClose} className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 -mt-2 -mr-2">
+                         <button onClick={onClose} aria-label="Close course details" className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 -mt-2 -mr-2">
                              <XIcon className="w-6 h-6 text-gray-600 dark:text-gray-300"/>
                          </button>
                     </div>
@@ -168,8 +168,8 @@ const StudentCoursesPage: React.FC = () => {
                             <div className="flex-1">
                                 <p className="text-sm text-gray-500 dark:text-gray-400">{course.provider}</p>
                                 <h3 className="font-semibold text-lg">{course.title}</h3>
-                                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mt-2">
-                                    <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: `${course.progress}%` }}></div>
+                                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mt-2 overflow-hidden">
+                                    <progress value={course.progress} max={100} className="w-full h-2.5 appearance-none rounded-full bg-transparent"></progress>
                                 </div>
                                 <p className="text-right text-sm text-gray-500 dark:text-gray-400 mt-1">{course.progress}%</p>
                                 <Button variant="primary" size="sm" className="mt-2">Continue</Button>
@@ -183,8 +183,8 @@ const StudentCoursesPage: React.FC = () => {
             {/* Explore Courses */}
             <div>
                 <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">Explore Courses</h2>
-                <div className="flex justify-between items-center mb-4">
-                    <div className="relative">
+                <div className="flex flex-col gap-4 md:flex-row md:items-center justify-between mb-4">
+                    <div className="relative w-full md:flex-1">
                         <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                         <input 
                             type="text" 
@@ -194,7 +194,7 @@ const StudentCoursesPage: React.FC = () => {
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
-                    <select className="border dark:border-gray-600 rounded-md py-2 px-3 dark:bg-gray-700">
+                    <select aria-label="Filter course category" className="w-full md:w-auto border dark:border-gray-600 rounded-md py-2 px-3 dark:bg-gray-700">
                         <option>All Categories</option>
                     </select>
                 </div>

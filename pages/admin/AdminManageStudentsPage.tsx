@@ -9,7 +9,7 @@ const StudentDetailsModal: React.FC<{ student: StudentProfile, onClose: () => vo
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-3xl max-h-[90vh] flex flex-col">
             <header className="p-4 border-b dark:border-gray-700 flex justify-between items-center">
                 <h2 className="text-xl font-bold">Student Profile: {student.name}</h2>
-                <button onClick={onClose}><XIcon className="w-6 h-6"/></button>
+                <button onClick={onClose} aria-label="Close student details"><XIcon className="w-6 h-6"/></button>
             </header>
             <main className="p-6 overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-6">
                  <div><h4 className="font-semibold">Email</h4><p>{student.email}</p></div>

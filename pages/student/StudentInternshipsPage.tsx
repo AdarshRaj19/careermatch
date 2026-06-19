@@ -20,7 +20,7 @@ export const InternshipDetailsModal: React.FC<{ internship: Internship, onClose:
                 <div className="p-6">
                     <div className="flex justify-between items-start">
                          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">{internship.title}</h2>
-                         <button onClick={onClose} className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                         <button onClick={onClose} aria-label="Close internship details" className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
                              <XIcon className="w-6 h-6 text-gray-600 dark:text-gray-300"/>
                          </button>
                     </div>
@@ -129,6 +129,8 @@ const InternshipCard: React.FC<{
                 </div>
                 <button
                     onClick={(e) => { e.stopPropagation(); onToggleSave(internship.id, isSaved); }}
+                    aria-label={isSaved ? 'Unsave internship' : 'Save internship'}
+                    title={isSaved ? 'Unsave internship' : 'Save internship'}
                     className={`p-2 rounded-full transition-colors ${isSaved ? 'text-red-500 bg-red-100 dark:bg-red-900/50' : 'text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20'}`}
                 >
                     <BookmarkIcon className="w-6 h-6" />
@@ -141,6 +143,7 @@ const InternshipCard: React.FC<{
 const FilterDropdown: React.FC<{ options: string[], value: string, onChange: (value: string) => void }> = ({ options, value, onChange }) => (
     <div className="relative">
         <select
+            aria-label="Filter option"
             className="appearance-none w-full md:w-48 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md py-2 px-4 pr-8 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
             value={value}
             onChange={e => onChange(e.target.value)}

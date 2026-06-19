@@ -7,6 +7,8 @@ import { StudentProfile } from '../../types';
 const ToggleSwitch: React.FC<{ checked: boolean; onChange: (checked: boolean) => void; }> = ({ checked, onChange }) => (
     <button
         onClick={() => onChange(!checked)}
+        aria-label={checked ? 'Disable setting' : 'Enable setting'}
+        title={checked ? 'Disable setting' : 'Enable setting'}
         className={`relative inline-flex items-center h-6 rounded-full w-11 transition-colors ${
             checked ? 'bg-blue-600' : 'bg-gray-200 dark:bg-gray-600'
         }`}
@@ -95,7 +97,7 @@ const StudentDocumentsPage: React.FC = () => {
             
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 border-b dark:border-gray-700 pb-3">Resume Management</h3>
-                <div className="mt-4 p-4 border-2 border-dashed dark:border-gray-600 rounded-md flex items-center justify-between">
+                <div className="mt-4 p-4 border-2 border-dashed dark:border-gray-600 rounded-md flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div>
                         {profile.resume_url ? (
                              <a href={`http://localhost:3001${profile.resume_url}`} target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:underline">
@@ -120,14 +122,14 @@ const StudentDocumentsPage: React.FC = () => {
                     <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">Consent Settings</h3>
                 </div>
                 <div className="mt-4 space-y-4">
-                    <div className="flex items-center justify-between p-4 rounded-md bg-gray-50 dark:bg-gray-700/50">
+                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between p-4 rounded-md bg-gray-50 dark:bg-gray-700/50">
                         <div>
                             <p className="font-semibold">Automatic Resume Parsing</p>
                             <p className="text-sm text-gray-500 dark:text-gray-400 max-w-md">Allow our AI to parse your resume for skills and experience to improve internship matching and recommendations.</p>
                         </div>
                         <ToggleSwitch checked={profile.consent_resume_parsing} onChange={(newValue) => handleToggleChange('consent_resume_parsing', newValue)} />
                     </div>
-                    <div className="flex items-center justify-between p-4 rounded-md bg-gray-50 dark:bg-gray-700/50">
+                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between p-4 rounded-md bg-gray-50 dark:bg-gray-700/50">
                         <div>
                             <p className="font-semibold">Profile Sharing Consent</p>
                             <p className="text-sm text-gray-500 dark:text-gray-400 max-w-md">Allow host organizations to view your detailed profile, including your resume and skills, once you are allocated to them.</p>

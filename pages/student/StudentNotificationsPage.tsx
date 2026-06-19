@@ -40,7 +40,10 @@ const NotificationIcon: React.FC<{ type: string }> = ({ type }) => {
 
 const ToggleSwitch: React.FC<{ checked: boolean; onChange: (checked: boolean) => void; }> = ({ checked, onChange }) => (
     <button
+        type="button"
         onClick={() => onChange(!checked)}
+        aria-label={checked ? 'Disable notifications' : 'Enable notifications'}
+        title={checked ? 'Disable notifications' : 'Enable notifications'}
         className={`relative inline-flex items-center h-6 rounded-full w-11 transition-colors ${
             checked ? 'bg-blue-600' : 'bg-gray-200 dark:bg-gray-600'
         }`}

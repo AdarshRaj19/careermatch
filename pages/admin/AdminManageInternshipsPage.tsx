@@ -41,7 +41,7 @@ const AddInternshipModal: React.FC<{ onClose: () => void, onAdd: () => void }> =
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-lg">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl font-bold">Add New Internship</h2>
-                    <button onClick={onClose}><XIcon /></button>
+                    <button onClick={onClose} aria-label="Close add internship modal"><XIcon /></button>
                 </div>
 
                 <div className="space-y-4">
@@ -104,13 +104,13 @@ const AdminManageInternshipsPage: React.FC = () => {
 
             <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Manage Internships</h1>
 
-            <div className="mt-4 flex justify-between">
-                <div className="relative">
+            <div className="mt-4 flex flex-col gap-4 md:flex-row md:justify-between md:items-center">
+                <div className="relative w-full md:max-w-md">
                     <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                     <input
                         type="text"
                         placeholder="Search by title or organization..."
-                        className="pl-10 pr-4 py-2 border rounded-md dark:bg-gray-700"
+                        className="w-full pl-10 pr-4 py-2 border rounded-md dark:bg-gray-700"
                         value={searchTerm}
                         onChange={e => setSearchTerm(e.target.value)}
                     />
